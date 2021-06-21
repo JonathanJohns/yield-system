@@ -68,8 +68,8 @@
                             }
                     });
 
-                // let url = 'https://livi.enablingsolutions.co.za/webservices/rest.php?version=1.3';
-                let url = 'http://localhost/enabling/external/itop-2.6.1/web/webservices/rest.php?version=1.4';
+                let url = 'https://livi.enablingsolutions.co.za/webservices/rest.php?version=1.3';
+                // let url = 'http://localhost/enabling/external/itop-2.6.1/web/webservices/rest.php?version=1.4';
                 let json_data = {operation:"core/get",class:"Organization",key:"SELECT Organization AS o JOIN Printer AS p ON p.org_id = o.id WHERE p.id != \'\' ",output_fields:"name, status, parent_name, parent_id"};
 
 
