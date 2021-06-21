@@ -57,7 +57,16 @@
                         // crossDomain: 'true',
                         // dataType: 'jsonp',
                         // 'Access-Control-Allow-Origin': 'http://yield.co',
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Connection': 'Keep-Alive',
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Headers': 'Origin, Content-Type, Authorization'
+                        
+                        // 'Access-Control-Allow-Origin': 'yield.co',
+                        // 'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+                        // 'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
+
+
                     }
                     }
 
@@ -68,8 +77,8 @@
                             }
                     });
 
-                let url = 'https://livi.enablingsolutions.co.za/webservices/rest.php?version=1.3';
-                // let url = 'http://localhost/enabling/external/itop-2.6.1/web/webservices/rest.php?version=1.4';
+                let url = 'https://livi.enablingsolutions.co.za/webservices/rest.php?version=1.4';
+                // let url = 'http://localhost/enabling/external/itop-2.6.1/web/webservices/rest.php?version=1.3';
                 let json_data = {operation:"core/get",class:"Organization",key:"SELECT Organization AS o JOIN Printer AS p ON p.org_id = o.id WHERE p.id != \'\' ",output_fields:"name, status, parent_name, parent_id"};
 
 
@@ -78,21 +87,54 @@
                 //     // auth_pwd: 'Solutions2',
                 //     // json_data: json_data,
                 //     }, config)
+
+                $.ajax({
+        type: "POST",
+        url: url,
+        dataType: 'json',
+		data: { auth_user: 'admin', auth_pwd: 'Solutions2', json_data: JSON.stringify(json_data) },
+		crossDomain: 'true',
+        success: function (data) {
+			console.log('reutrrrrn', data);
+        }
+    });
                 
-                axios({
-                    method: 'post',
-                    url: url,
-                    data: {
+                axios.post(
+                    url,
+                  {
                         auth_user: 'admin',
+                        'crossDomain': 'true',
                         auth_pwd: 'Solutions2',
-                        json_data: json_data
+                        json_data: "{'operation':'core/get','class':'Organization','key':'SELECT Organization AS o JOIN Printer AS p ON p.org_id = o.id WHERE p.id != \'\' ','output_fields':'name, status, parent_name, parent_id'}"
                     },
+                    {
                     headers: {
-                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                         'Content-Type': 'application/json'
+                        // crossDomain: 'true',
+                        // dataType: 'jsonp',
+                        // 'Access-Control-Allow-Origin': 'http://yield.co',
+                        // 'Content-Type': 'application/json',
+                        // 'Connection': 'Keep-Alive',
+                        // 'Access-Control-Allow-Origin': '*',
+                        // 'Access-Control-Allow-Headers': 'Origin, Content-Type, Authorization',
+                        // 'Content-Disposition': 'inline; filename=""'
+                        'crossDomain': 'true'
+
+                        
+                        // 'Access-Control-Allow-Origin': 'yield.co',
+                        // 'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
+                        // 'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token'
+
+
                     }
-                    }).then(response => {
+                    }
+                    // headers: {
+                    //      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    //      'Content-Type': 'application/json'
+                    // }
+                    ).then(response => {
                         console.log(response.data)
+                    }).catch(error => {
+                        console.log(error.response)
                     })
             }
         }
