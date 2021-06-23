@@ -33,7 +33,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <link rel="stylesheet" href="{{asset('css/font-awesome/css/font-awesome.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/dashboard.css')}}">
+    {{-- <link rel="stylesheet" href="{{asset('css/font-awesome/css/font-awesome.min.css')}}"> --}}
+    <link href="{{asset('sb-admin-2/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
 </head>
 
 <style>

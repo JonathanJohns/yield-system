@@ -6,6 +6,7 @@
            <!-- <p class="text-center mt-2 text-white d-none d-sm-block">&nbsp;</p> -->
            <!-- <li class="list-group-item"><i class="fa fa-tachometer"></i><router-link to="/"> Dashboard</router-link></li> -->
             <li  class="list-group-item"><i class="fa fa-dashboard"></i><router-link to="/"> Organizations</router-link></li>
+            <li  class="list-group-item"><i class="fa fa-dashboard"></i><router-link to="/printers/all"> All Printers</router-link></li>
              <!-- <li class="list-group-item"><i class="fa fa-bar-chart"></i><router-link to="/feedback"> Responses</router-link></li>
              <li class="list-group-item"><i class="fa fa-puzzle-piece"></i><router-link to="/categories"> Categories</router-link></li>
             <li class="list-group-item"><i class="fa fa-tasks"></i><router-link to="/surveys"> Surveys</router-link></li>

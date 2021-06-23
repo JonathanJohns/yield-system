@@ -56,6 +56,8 @@ import SidebarComp from './components/layout/SidebarComp';
 import NavbarComp from './components/layout/NavbarComp.vue';
 import Dashboard from './components/Dashboard.vue';
 import Organizations from './components/Organizations.vue';
+import Printers from './components/Printers.vue';
+import PrinterHistory from './components/PrinterHistory.vue';
 
 
  const routes = [
@@ -70,6 +72,14 @@ import Organizations from './components/Organizations.vue';
             {
                 path: '',
                 component: Organizations
+            },
+            {
+                path: '/printers/:id',
+                component: Printers
+            },
+            {
+                path: '/printer/:id',
+                component: PrinterHistory
             },
         ]
     },

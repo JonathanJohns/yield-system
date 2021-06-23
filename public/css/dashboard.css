@@ -1,0 +1,5 @@
+body {
+    overflow-x: hidden !important;
+    overflow-y: scroll;
+    zoom: 0.96;
+} 
