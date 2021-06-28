@@ -31,6 +31,8 @@ import VueRouter from 'vue-router'
 import VueSweetalert2 from 'vue-sweetalert2';
 import moment from 'moment'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+// import {BootstrapVue, IconsPlugin, NavbarPlugin} from 'bootstrap-vue';
+// Vue.use(BootstrapVue );
 
 // If you don't need the styles, do not connect
 import 'sweetalert2/dist/sweetalert2.min.css';
@@ -79,6 +81,10 @@ import PrinterHistory from './components/PrinterHistory.vue';
             },
             {
                 path: '/printer/:id',
+                component: PrinterHistory
+            },
+            {
+                path: '/capture/:id',
                 component: PrinterHistory
             },
         ]

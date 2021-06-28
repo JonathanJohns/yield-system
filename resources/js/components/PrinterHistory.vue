@@ -44,9 +44,9 @@
             <!-- <router-link class="btn btn-default btn-sm " to="/surveys">
             <i class="fa fa-refresh"></i> 
         </router-link> -->
-        <span class="btn btn-primary mt-1 ">
+        <!-- <span class="btn btn-primary mt-1 ">
             <i class="fa fa-plus"></i> Capture Yield
-        </span>
+        </span> -->
             
             
 
@@ -59,7 +59,7 @@
 iTop Login: <input type="text" id="auth_user" name="auth_user" value="admin"/> Password: <input type="password" id="auth_pwd" name="auth_pwd" value=""/>
 </p>
 <p>API Version: <input type="text" id="version" name="version" value="1.0"/> <button type="button" :click="ListOperations">List Operations</button></p>
-<p>Use: <input type="radio" id="json" value="json" name="json"/><label for="json"> JSON</label>&nbsp;&nbsp;<input type="radio" id="jsonp" value="jsonp"  name="json" checked/><label for="jsonp"> JSON-P</label></p>
+<p>Use: <input type="radio" id="json" value="json" name="json"/><label class="text-secondary" for="json"> JSON</label>&nbsp;&nbsp;<input type="radio" id="jsonp" value="jsonp"  name="json" checked/><label class="text-secondary" for="jsonp"> JSON-P</label></p>
     </fieldset>
 <fieldset><legend>Get Object</legend>
 Class: <input type="text" id="get_class" value="Contact"/> Key: <input type="text" id="get_key" value="1"/> <button type="button" :click=" GetObject">Get Object</button>
@@ -89,13 +89,20 @@ Result:<br/>
         
     </div>
     <div class="row">
-        <div class="col-12 mt-3">
+        <div class="col-12 mt-3 px-3">
             <h5 class="text-secondary text-capitalize">Serial No : </h5>
         </div>
         
     </div>
     <div class="row">
-        <div class="col-12 mt-4" >
+        <div class="col-12 mt-3">
+            <b-card no-body>
+    <b-tabs card>
+      <b-tab title="Yield History" active>
+        <b-card-text>
+            <div class="row">
+          <div class="col-12">
+              <div class="col-12 mt-4 px-0" >
             <vue-good-table
                 :columns="columns"
                 :rows="rows"
@@ -147,6 +154,139 @@ Result:<br/>
                 
             </vue-good-table>
         </div>
+          </div>
+      </div>
+
+
+        </b-card-text>
+      </b-tab>
+      <b-tab title="Capture Yield">
+        <b-card-text>
+            <!-- <div class="row mb-2">
+                <div class="col-12 h3">
+                    Printer Details
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-4">
+                    Serial:
+                </div>
+                <div class="col-4">
+                    Location:
+                </div>
+                <div class="col-4">
+                    Contact:
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-12 h6">
+                    Capture
+                </div>
+            </div> -->
+                <div class="row">
+                    <!-- <div class="col-12">
+
+                    </div> -->
+                    <div class="col-12 col-lg-6  ">
+                        <b-container fluid>
+                            <b-row class="my-3">
+                            <b-col sm="4">
+                                <label class="text-secondary" :for="``">Ticket No:</label>
+                            </b-col>
+                            <b-col sm="8">
+                                <b-form-input :id="``" :value="value" :type="type"></b-form-input>
+                            </b-col>
+                            </b-row>
+                            <b-row class="my-3">
+                            <b-col sm="4">
+                                <label class="text-secondary" :for="``">CRO No. (Fincon):</label>
+                            </b-col>
+                            <b-col sm="8">
+                                <b-form-input :id="``" :value="value" :type="type"></b-form-input>
+                            </b-col>
+                            </b-row>
+                            <b-row class="my-3">
+                            <b-col sm="4">
+                                <label class="text-secondary" :for="``">Initial Reading:</label>
+                            </b-col>
+                            <b-col sm="8">
+                                <b-form-input :id="``" :value="value" :type="type"></b-form-input>
+                            </b-col>
+                            </b-row>
+                            <b-row class="my-3">
+                            <b-col sm="4">
+                                <label class="text-secondary" :for="``">New Reading:</label>
+                            </b-col>
+                            <b-col sm="8">
+                                <b-form-input :id="``" :value="value" :type="type"></b-form-input>
+                            </b-col>
+                            </b-row>
+                            <b-row class="my-3">
+                            <b-col sm="4">
+                                <label class="text-secondary" :for="``">Yield:</label>
+                            </b-col>
+                            <b-col sm="8">
+                                <b-form-input :id="``" :value="value" :type="type"></b-form-input>
+                            </b-col>
+                            </b-row>
+                        </b-container>
+                       
+                    </div>
+                    <div class="col-12 col-lg-6" >
+                        <b-container fluid>
+                            <b-row class="my-3">
+                            <b-col sm="4">
+                                <label class="text-secondary" :for="``">Request Date:</label>
+                            </b-col>
+                            <b-col sm="8">
+                                <b-form-input :id="``" :value="value" :type="type"></b-form-input>
+                            </b-col>
+                            </b-row>
+                            <b-row class="my-3">
+                            <b-col sm="4">
+                                <label class="text-secondary" :for="``">Delivery Date:</label>
+                            </b-col>
+                            <b-col sm="8">
+                                <b-form-input :id="``" :value="value" :type="type"></b-form-input>
+                            </b-col>
+                            </b-row>
+                            <b-row class="my-3">
+                            <b-col sm="4">
+                                <label class="text-secondary" :for="``">Toner Serial No:</label>
+                            </b-col>
+                            <b-col sm="8">
+                                <b-form-input :id="``" :value="value" :type="type"></b-form-input>
+                            </b-col>
+                            </b-row>
+                            <b-row class="my-3">
+                            <b-col sm="4">
+                                <label class="text-secondary" :for="``">Toner Changed:</label>
+                            </b-col>
+                            <b-col sm="8">
+                                <b-form-input :id="``" :value="value" :type="type"></b-form-input>
+                            </b-col>
+                            </b-row>
+                            <b-row class="my-3">
+                            <b-col sm="4">
+                                <label class="text-secondary" :for="``">Yield:</label>
+                            </b-col>
+                            <b-col sm="8">
+                                <b-form-input :id="``" :value="value" :type="type"></b-form-input>
+                            </b-col>
+                            </b-row>
+                        </b-container>
+                    </div>
+                    <div class="col-12 mt-4 text-right">
+                        <span class="btn btn-success"><i class="fa fa-save"></i> Save</span>
+                    </div>
+                </div>
+
+
+        </b-card-text>
+      </b-tab>
+    </b-tabs>
+  </b-card>
+        </div>
     </div>
    
     
@@ -175,6 +315,19 @@ import { VueGoodTable } from 'vue-good-table';
             return {
                 loaded:false,
                 org_name: '',
+                types: [
+                    'text',
+                    'text',
+                    'email',
+                    'password',
+                    'search',
+                    'url',
+                    'tel',
+                    'date',
+                    'time',
+                    'range',
+                    'color'
+                    ],
                 columns: [
         
         {
@@ -279,14 +432,14 @@ import { VueGoodTable } from 'vue-good-table';
         //   type: 'percentage',
         // },
       ],
-    //   rows: [
-    //     { id:1, name:"John", age: 20, createdAt: '',score: 0.03343 },
-    //     { id:2, name:"Jane", age: 24, createdAt: '2011-10-31', score: 0.03343 },
-    //     { id:3, name:"Susan", age: 16, createdAt: '2011-10-30', score: 0.03343 },
-    //     { id:4, name:"Chris", age: 55, createdAt: '2011-10-11', score: 0.03343 },
-    //     { id:5, name:"Dan", age: 40, createdAt: '2011-10-21', score: 0.03343 },
-    //     { id:6, name:"John", age: 20, createdAt: '2011-10-31', score: 0.03343 },
-    //   ],
+      rows: [
+        // { id:1, name:"John", age: 20, createdAt: '',score: 0.03343 },
+        // { id:2, name:"Jane", age: 24, createdAt: '2011-10-31', score: 0.03343 },
+        // { id:3, name:"Susan", age: 16, createdAt: '2011-10-30', score: 0.03343 },
+        // { id:4, name:"Chris", age: 55, createdAt: '2011-10-11', score: 0.03343 },
+        // { id:5, name:"Dan", age: 40, createdAt: '2011-10-21', score: 0.03343 },
+        // { id:6, name:"John", age: 20, createdAt: '2011-10-31', score: 0.03343 },
+      ],
             }
         },
         methods: {
