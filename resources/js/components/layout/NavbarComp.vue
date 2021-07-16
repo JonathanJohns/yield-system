@@ -1,9 +1,12 @@
 <template>
     <div  class="">
-  <b-navbar toggleable="lg" type="dark" style="background-color: rgb(70, 130, 180)">
+  <!-- <b-navbar toggleable="lg" type="dark" style="background-color: rgb(70, 130, 180)"> -->
+  <b-navbar toggleable="lg" type="dark" style="background-color: #F1F1F1">
     <b-navbar-brand href="#" class="text-center">
       <!-- <img src='/img/eslogo.png' style="width: 40px"> -->
-    Yield-sytem</b-navbar-brand>
+    <!-- Yield-sytem -->
+    &nbsp;
+    </b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -28,7 +31,7 @@
         <b-nav-item-dropdown right>
           <!-- Using 'button-content' slot -->
           <template #button-content>
-            <em>Settings</em>
+            <em style="color: #6c757d !important" >Settings</em>
           </template>
           <!-- <b-dropdown-item href="#">Profile</b-dropdown-item> -->
           <b-dropdown-item @click.prevent="logout" >Sign Out</b-dropdown-item>

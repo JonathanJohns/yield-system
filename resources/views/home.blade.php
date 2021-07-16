@@ -56,10 +56,10 @@ height: 100vh
         <div class="col-12" style="padding: 0">
             <router-view name="nav"></router-view>
         </div>
-        <div class="col-md-2 col-lg-2 col-xl-2" style=" padding: 0px">
+        <div class="col-md-2 col-lg-2 col-xl-2" style=" padding: 0px; background: #F1F1F1 !important">
         <router-view name="sidebar"></router-view>  
         </div>
-        <div class="col-md-10 col-lg-10 col-xl-10 padding-0" style=" min-height: 1280px; ">
+        <div class="col-md-10 col-lg-10 col-xl-10 padding-0" style=" min-height: 1280px; background: #fff !important ">
         <router-view></router-view>
         </div>   
 

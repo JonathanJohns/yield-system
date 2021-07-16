@@ -268,7 +268,7 @@ Result:<br/>
                             </b-row>
                             <b-row class="my-3">
                             <b-col sm="4">
-                                <label class="text-secondary" :for="``">Yield:</label>
+                                <label class="text-secondary" :for="``">Comments:</label>
                             </b-col>
                             <b-col sm="8">
                                 <b-form-input :id="``" :value="value" :type="type"></b-form-input>
