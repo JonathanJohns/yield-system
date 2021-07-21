@@ -1,6 +1,6 @@
 <template>
 
-<div>
+<div v-if="loaded">
     <!-- <div class="row " v-if="!loaded">
           <div class="col-12 my-5 py-5 text-center">
             <i class="fa fa-spin fa-circle-notch fa-3x text-muted"></i>
@@ -20,9 +20,9 @@
             </div>
         </div> -->
         <div class="row " >
-        <div class="col-8">
+        <div class="col-lg-8 col-12">
 
-            <h2 class="text-secondary text-capitalize">Printer - Name
+            <h2 class="text-secondary text-capitalize">{{info.name}}<span style="font-size: 20px !important; padding-bottom: 10px" ><small>({{info.org_id_friendlyname}})</small></span>
 
 
                 <!-- <router-link class="btn btn-default btn-sm " to="/surveys">
@@ -34,7 +34,7 @@
             
 
         </div>
-        <div class="col-4 text-right">
+        <div class="col-lg-4 text-right">
 
             <!-- <h2 class="text-secondary text-capitalize">Printer - Name
 
@@ -90,14 +90,16 @@ Result:<br/>
     </div>
     <div class="row">
         <div class="col-12 mt-3 px-3">
-            <h5 class="text-secondary text-capitalize">Serial No : </h5>
+            <h5 class="text-secondary text-capitalize"><small>Serial No : {{info.serialnumber}} </small></h5>
         </div>
         
+        
     </div>
+    
     <div class="row">
         <div class="col-12 mt-3">
             <b-card no-body>
-    <b-tabs card>
+    <b-tabs v-model="tabIndex" card>
       <b-tab title="Yield History" active>
         <b-card-text>
             <div class="row">
@@ -123,15 +125,45 @@ Result:<br/>
 
                     
                     
-                    <span class="pl-2 text-center">
+                    <span class=" text-center">
 
-                    <span v-if="props.column.field == 'name'">
+                    <span v-if="props.column.field == 'id'">
                     <!-- <span class="text-dark c-font-500"  v-if="props.row.is_exclusive == 1" style="">Yes</span> 
                     <span class="text-dark c-font-500"  v-if="props.row.is_exclusive == 0" style="">No</span>  -->
                    
-                    <!-- <span class="text-dark c-font-500"   style="">{{props.row.org_id}}</span>  -->
-                    <router-link class="text-dark font-weight-normal" :to="'/printer/' + props.row.org_id">{{props.row.name}}</router-link>
+                    <span class="text-dark font-weight-bold"   style="">#{{props.row.id}}</span> 
+                    <!-- <router-link class="text-dark font-weight-normal" :to="'/printer/' + props.row.org_id">{{props.row.name}}</router-link> -->
                     </span>
+                    <span v-else-if="props.column.field == 'new_reading'">
+                    
+                   
+                    <span class="text-dark font-weight-bold"   style="">{{props.row.new_reading}}</span> 
+                    
+                    </span>
+                    <span v-else-if="props.column.field == 'comments'">
+                    
+                   
+                    <span class="text-dark "   style="font-size: 14px !important">{{props.row.comments}}</span> 
+                    
+                    </span>
+                    <!-- <span v-else-if="props.column.field == 'created_at'">
+                    
+                   
+                    <span class="text-dark "   style="font-size: 14px !important">{{props.row.created_at}}</span> 
+                    
+                    </span> -->
+                    <!-- <span v-else-if="props.column.field == 'initial_reading'">
+                    
+                   
+                    <span class="text-dark font-weight-bold"   style="">{{props.row.initial_reading}}</span> 
+                    
+                    </span>
+                    <span v-else-if="props.column.field == 'yield'">
+                    
+                   
+                    <span class="text-dark font-weight-bold"   style="">{{props.row.yield}}</span> 
+                   
+                    </span> -->
                     <!-- <span v-else-if="props.column.field == 'id'">
                     <span  class="text-dark" style="font-weight: bold; ">#{{props.row.id}}</span> 
                     </span>
@@ -194,7 +226,7 @@ Result:<br/>
                                 <label class="text-secondary" :for="``">Ticket No:</label>
                             </b-col>
                             <b-col sm="8">
-                                <b-form-input :id="``" :value="value" :type="type"></b-form-input>
+                                <b-form-input :id="``" v-model="ticket_number" :type="type"></b-form-input>
                             </b-col>
                             </b-row>
                             <b-row class="my-3">
@@ -202,15 +234,15 @@ Result:<br/>
                                 <label class="text-secondary" :for="``">CRO No. (Fincon):</label>
                             </b-col>
                             <b-col sm="8">
-                                <b-form-input :id="``" :value="value" :type="type"></b-form-input>
+                                <b-form-input :id="``" v-model="cro_number" :type="type"></b-form-input>
                             </b-col>
                             </b-row>
                             <b-row class="my-3">
                             <b-col sm="4">
-                                <label class="text-secondary" :for="``">Initial Reading:</label>
+                                <label class="text-secondary" :for="``">Initial/Previous Reading:</label>
                             </b-col>
                             <b-col sm="8">
-                                <b-form-input :id="``" :value="value" :type="type"></b-form-input>
+                                <b-form-input :id="``" v-model="initial_reading" :type="'number'"></b-form-input>
                             </b-col>
                             </b-row>
                             <b-row class="my-3">
@@ -218,15 +250,17 @@ Result:<br/>
                                 <label class="text-secondary" :for="``">New Reading:</label>
                             </b-col>
                             <b-col sm="8">
-                                <b-form-input :id="``" :value="value" :type="type"></b-form-input>
+                                <b-form-input :id="``" v-model="new_reading" :type="'number'"></b-form-input>
                             </b-col>
                             </b-row>
                             <b-row class="my-3">
                             <b-col sm="4">
                                 <label class="text-secondary" :for="``">Yield:</label>
                             </b-col>
-                            <b-col sm="8">
-                                <b-form-input :id="``" :value="value" :type="type"></b-form-input>
+                            <b-col sm="8 text-secondary">
+                                <!-- <b-form-input :id="``" v-model="printer_yield" :type="type"></b-form-input> -->
+
+                                <small>{{printer_yield}}</small>
                             </b-col>
                             </b-row>
                         </b-container>
@@ -236,10 +270,17 @@ Result:<br/>
                         <b-container fluid>
                             <b-row class="my-3">
                             <b-col sm="4">
-                                <label class="text-secondary" :for="``">Request Date:</label>
+                                <label class="text-secondary" :for="``">Request Date: {{request_date}}</label>
                             </b-col>
                             <b-col sm="8">
-                                <b-form-input :id="``" :value="value" :type="type"></b-form-input>
+                                <!-- <b-form-input :id="``" v-model="request_date" :type="type"></b-form-input> -->
+
+                                <b-form-datepicker id="request-date" v-model="request_date" 
+                                today-button
+                                reset-button
+                                close-button
+                                :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit'}"
+                                class="mb-2"></b-form-datepicker>
                             </b-col>
                             </b-row>
                             <b-row class="my-3">
@@ -247,7 +288,15 @@ Result:<br/>
                                 <label class="text-secondary" :for="``">Delivery Date:</label>
                             </b-col>
                             <b-col sm="8">
-                                <b-form-input :id="``" :value="value" :type="type"></b-form-input>
+                                <!-- <b-form-input :id="``" v-model="delivery_date" :type="type"></b-form-input> -->
+
+                                <b-form-datepicker id="delivery-date" v-model="delivery_date" 
+                                today-button
+                                reset-button
+                                close-button
+                                :date-format-options="{ year: 'numeric', month: 'short', day: '2-digit'}"
+                                class="mb-2">
+                                </b-form-datepicker>
                             </b-col>
                             </b-row>
                             <b-row class="my-3">
@@ -255,7 +304,7 @@ Result:<br/>
                                 <label class="text-secondary" :for="``">Toner Serial No:</label>
                             </b-col>
                             <b-col sm="8">
-                                <b-form-input :id="``" :value="value" :type="type"></b-form-input>
+                                <b-form-input :id="``" v-model="toner_serial_number" :type="type"></b-form-input>
                             </b-col>
                             </b-row>
                             <b-row class="my-3">
@@ -263,7 +312,8 @@ Result:<br/>
                                 <label class="text-secondary" :for="``">Toner Changed:</label>
                             </b-col>
                             <b-col sm="8">
-                                <b-form-input :id="``" :value="value" :type="type"></b-form-input>
+                                <!-- <b-form-input :id="``" v-model="toner_changed" :type="type"></b-form-input> -->
+                                <b-form-select v-model="toner_changed" :options="options"></b-form-select>
                             </b-col>
                             </b-row>
                             <b-row class="my-3">
@@ -271,13 +321,28 @@ Result:<br/>
                                 <label class="text-secondary" :for="``">Comments:</label>
                             </b-col>
                             <b-col sm="8">
-                                <b-form-input :id="``" :value="value" :type="type"></b-form-input>
+                                <!-- <b-form-input :id="``" v-model="comments" :type="type"></b-form-input> -->
+
+                                <b-form-textarea
+                                    id="textarea"
+                                    v-model="comments"
+                                    placeholder="Enter something..."
+                                    rows="3"
+                                   
+                                ></b-form-textarea>
                             </b-col>
                             </b-row>
                         </b-container>
                     </div>
+                    <div class="col-12 mx-2 my-3 alert alert-danger font-weight-800" v-if="errors.length > 0" >
+            <h5><i class="fas fa-info-circle"></i> Error</h5>
+            <ul class="" v-for="(error,index) in errors " :key="index">
+                <li class="mx-2 my-1" v-html="error"></li>
+            </ul>
+        </div>
                     <div class="col-12 mt-4 text-right">
-                        <span class="btn btn-success"><i class="fa fa-save"></i> Save</span>
+                        <span v-if="!saving" @click="saveHistory" class="btn btn-success"><i class="fa fa-save"></i> Save</span>
+                        <button v-if="saving" class="btn btn-success disabled"><i class="fa fa-save" disabled></i> Save</button>
                     </div>
                 </div>
 
@@ -309,12 +374,51 @@ import { VueGoodTable } from 'vue-good-table';
         mounted() {
             console.log('Component mounted.')
             this.getPrinters()
+
+            const str = "abc's test#s";
+console.log('all time ',str.replace(/[^a-zA-Z ]/g, ""));
+        },
+        computed: { 
+            printer_yield: function() {
+               return  this.new_reading - this.initial_reading
+            }
         },
         components: { VueGoodTable},
         data: function() {
             return {
+                serial_number : '' ,
+                tabIndex: 0,
+                printer_id : '' ,
+                printer_name : '' ,
+                organization_name : '' ,
+                organization_id : '' ,
+                ticket_number : '' ,
+                cro_number : '' ,
+                initial_reading : '' ,
+                new_reading : 0 ,
+                // printer_yield : '' ,
+                request_date : '' ,
+                delivery_date : '',
+                toner_serial_number : '' ,
+                toner_changed : '' ,
+                comments : '' ,
                 loaded:false,
                 org_name: '',
+                value: 'text',
+                type: 'text',
+                printer: '',
+                history_loaded: '',
+                tabIndex: 0,
+                saving: false,
+                errors: [],
+        options: [
+          { value: null, text: 'Please select an option' },
+          { value: 'No', text: 'No' },
+          { value: 'yes', text: 'Yes' },
+          
+        //   { value: { C: '3PO' }, text: 'This is an option with object value' },
+        //   { value: 'd', text: 'This one is disabled', disabled: true }
+        ],
                 types: [
                     'text',
                     'text',
@@ -329,33 +433,65 @@ import { VueGoodTable } from 'vue-good-table';
                     'color'
                     ],
                 columns: [
-        
-        {
-          label: 'Date',
-          field: 'name',
-        },
+       
       
         {
-          label: 'Reading',
-          field: 'organization_name',
+          label: 'Reference',
+          field: 'id',
         },
         {
+          label: 'New Reading',
+          field: 'new_reading',
+        },
+        // {
+        //   label: 'Initial Reading',
+        //   field: 'initial_reading',
+        // },
+        // {
+        //   label: 'New Reading',
+        //   field: 'yield',
+        // },
+        {
           label: 'Yield',
-          field: 'brand_name',
+          field: 'yield',
         },
         
         {
-          label: 'S/N Toner',
-          field: 'model_name',
+          label: 'Previous Reading',
+          field: 'initial_reading',
+        },
+        {
+          label: 'Toner S/N ',
+          field: 'toner_serial_number',
         },
 
         {
           label: 'Toner Changed',
-          field: 'serialnumber',
+          field: 'toner_changed',
         },
         {
           label: 'Ticket',
-          field: 'location_name',
+          field: 'ticket_number',
+        },
+        {
+          label: 'Comments',
+          field: 'comments',
+        },
+         
+        
+         
+        {
+          label: 'Delivery Date',
+          field: 'delivery_date',
+        },
+        {
+          label: 'Request Date',
+          field: 'request_date',
+        },
+         
+        {
+          label: 'Date',
+          field: 'created_at',
         },
 
         // {
@@ -443,6 +579,89 @@ import { VueGoodTable } from 'vue-good-table';
             }
         },
         methods: {
+            saveHistory() {
+
+                this.errors = [];
+
+                if (this.ticket_number == '') {
+          this.errors.push('The <b>Ticket No.</b> is required')
+        }
+
+        if (this.cro_number == '') {
+          this.errors.push('The <b>CRO No.</b> is required')
+        }
+
+        if (this.initial_reading  == '') {
+          this.errors.push('The <b>Initial Reading</b> is required')
+        }
+
+        if (this.new_reading == '') {
+          this.errors.push('The <b>New Reading</b> is required')
+        }
+
+        if (this.delivery_date == '') {
+          this.errors.push('The <b>Delivery Date</b> is Required')
+        }
+
+        if (this.toner_serial_number == '') {
+          this.errors.push('The <b>Toner Serial Number</b>is Required')
+        }
+
+        if (this.toner_changed == '') {
+          this.errors.push('The <b>Toner Changed</b> field is Required')
+        }
+
+
+                if (this.errors.length == 0) {
+
+                    this.saving = true
+                axios.post('/yield', {
+                    serial_number : this.serial_number ,
+                    printer_id : this.printer_id ,
+                    printer_name : this.printer_name ,
+                    organization_name : this.organization_name ,
+                    organization_id : this.organization_id ,
+                    ticket_number : this.ticket_number ,
+                    cro_number : this.cro_number ,
+                    initial_reading : this.initial_reading ,
+                    new_reading : this.new_reading ,
+                    yield : this.printer_yield ,
+                    request_date : this.request_date ,
+                    delivery_date : this.delivery_date ,
+                    toner_serial_number : this.toner_serial_number ,
+                    toner_changed : this.toner_changed ,
+                    comments : this.comments ,
+                }).then(response => {
+
+                    console.log(response);
+                    this.tabIndex = 0;
+                    this.getHistory(this.serial_number)
+                    this.getInitialReading(this.serial_number)
+                    this.saving =  false;
+
+                    this.ticket_number = '' 
+                    this.cro_number = '' 
+                    this.initial_reading = '' 
+                    this.new_reading = '' 
+                    this.printer_yield = '' 
+                    this.request_date = '' 
+                    this.delivery_date = '' 
+                    this.toner_serial_number = '' 
+                    this.toner_changed = '' 
+                    this.comments = '' 
+
+                }).catch(error => {
+
+                    console.log(error)
+
+                })
+                }
+
+                
+            },
+
+
+
              DoXSS(oJSON)
 {
 	var sVersion = $('#version').val();
@@ -477,6 +696,16 @@ ListOperations()
     console.log('i am here')
 
 	this.DoXSS(oJSON);
+},
+getHistory(serial) {
+    axios.get('/history/'+serial)
+    .then((response) => {
+        this.rows = response.data
+        console.log('readings', response.data)
+    }).catch( (error) => {
+        this.getHistory(serial)
+        console.log(error)
+    })
 },
 
  GetObject()
@@ -519,7 +748,7 @@ syntaxHighlight(json) {
                 if (org_id == 'all') {
                     var json_data = {operation:"core/get",class:"Printer",key:"SELECT Printer ",output_fields:"*"}
                 } else {
-                    var json_data = {operation:"core/get",class:"Printer",key:"SELECT Printer AS p JOIN Organization AS o ON p.org_id = o.id WHERE p.org_id = "+org_id ,output_fields:"*"}
+                    var json_data = {operation:"core/get",class:"Printer",key:"SELECT Printer AS p WHERE p.id = "+ this.$route.params.id ,output_fields:"*"}
                 }
 
                 let config = {
@@ -570,41 +799,76 @@ syntaxHighlight(json) {
                             var result = Object.keys(data.objects).map(function(key) {
                 return [key, data.objects[key]];
                 });
+
+                console.log(result)
            
-			console.log('reutrrrrn', data );
-			console.log('reutrrrrn', size );
-			// console.log('reutrrrrn', result.length);
+			// console.log('reutrrrrn', data );
+			// console.log('reutrrrrn', size );
+			console.log('reutrrrrn', result.length);
 
-            this.org_name = result[0][1].fields.org_id_friendlyname
+            this.org_name = result[0][1].fields.org_id_friendlyname;
+
+
+            var serial_number = result[0][1].fields.serialnumber;
+
+            
+            this.getInitialReading(serial_number);
+            this.getHistory(serial_number);
+            this.info = result[0][1].fields;
+            this.printer_name = result[0][1].fields.name;
+            this.printer_id = result[0][1].key;
+            this.organization_name = result[0][1].fields.org_id_friendlyname;
+            this.organization_id = result[0][1].fields.org_id;
+            this.serial_number = result[0][1].fields.serialnumber;
+            this.info = result[0][1].fields;
 			console.log('reutrrrrn', result[0][1].fields.name);
-            var final = []
+            // var final = []
              
-            for (var i = 0; i < result.length; i++){
-               console.log('herere')
-                let object_final =  {
-                    name: result[i][1].fields.name,
-                    status: result[i][1].fields.status,
-                    parent_name: result[i][1].fields.parent_name,
-                    parent_id: result[i][1].fields.parent_id,
-                    org_id: result[i][1].key,
-                    organization_name: result[i][1].fields.organization_name,
-                    business_criticity: result[i][1].fields.business_criticity,
-                    location_name: result[i][1].fields.location_name,
-                    brand_name: result[i][1].fields.brand_name,
-                    model_name: result[i][1].fields.model_name,
-                    serialnumber: result[i][1].fields.serialnumber,
-                }
-                final.push(object_final);
-            }
+            // for (var i = 0; i < result.length; i++){
+            //    console.log('herere')
+            //     let object_final =  {
+            //         name: result[i][1].fields.name,
+            //         status: result[i][1].fields.status,
+            //         parent_name: result[i][1].fields.parent_name,
+            //         parent_id: result[i][1].fields.parent_id,
+            //         org_id: result[i][1].key,
+            //         organization_name: result[i][1].fields.organization_name,
+            //         business_criticity: result[i][1].fields.business_criticity,
+            //         location_name: result[i][1].fields.location_name,
+            //         brand_name: result[i][1].fields.brand_name,
+            //         model_name: result[i][1].fields.model_name,
+            //         serialnumber: result[i][1].fields.serialnumber,
+            //     }
+            //     final.push(object_final);
+            // }
 
-            console.log('finallll', final)
-            this.rows = final
+            // console.log('finallll', final)
+            // this.rows = final
 
-            this.loaded = true;
+            // this.loaded = true;
+            // this.loaded = true;
 
         }
     });
                 
+                
+            },
+            getInitialReading(serial) {
+
+                axios.get('/reading/'+serial).then((response) => {
+                    this.loaded = true;
+                    if (response.data == 'empty') {
+                        this.initial_reading = 0;
+                    }else {
+                        this.initial_reading = response.data.new_reading;
+                    }
+
+                })
+                .catch((error) => {
+                    this.loaded = true;
+                    this.getInitialReading()
+                })
+
                 
             }
         }
