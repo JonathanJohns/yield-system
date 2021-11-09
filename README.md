@@ -1,2 +1,2 @@
 # yield-system
-manage toner yield
+Track and manage printer toner yield
